@@ -6,7 +6,11 @@
   "author": "<abhi.kapur09@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "SET NODE_ENV=development& webpack-dev-server"
+    "start": "SET NODE_ENV=development& webpack-dev-server",
+    "test": "eslint src/**.js",
+    "build": "yarn clean & SET WEBPACK_ENV=production& webpack --colors",
+    "clean": "rimraf dist",
+    "deploy": "yarn build & surge -p dist -d abhi-cs52-starter.surge.sh & yarn clean"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
