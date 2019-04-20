@@ -11,3 +11,25 @@ body, html {
     background-repeat: no-repeat;
     background-size: contain;
 }
+
+.note {
+    display: flexbox;
+    justify-content: center;
+    align-items: center; 
+    width: 30vw;
+    height: 30vh;
+    background-color: black;
+    color: white;
+    border: 5px groove red;
+}
+
+.editing {
+    color: rgb(233, 108, 108);
+}
+
+.handle {
+    width: 2vw;
+    height: 2vh;
+    background-color: antiquewhite;
+    color: black;
+}
