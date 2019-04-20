@@ -31,9 +31,6 @@ class Note extends Component {
   };
 
   onContentChange = (event) => {
-    this.setState({
-      isEditing: true,
-    });
     console.log(event.target.value);
     // this.props.onSearchChange(event.target.value);
     this.setState({ text: event.target.value });
@@ -56,48 +53,30 @@ class Note extends Component {
   renderNote = (x, y, position) => {
     if (this.state.isEditing) {
       return (
-        <div>
-          <h2>editing!</h2>
-          <Draggable
-            handle=".handle"
-            grid={[25, 25]}
-            defaultPosition={{ x, y }}
-            position={position}
-        // onStart={this.onStartDrag}
-            onDrag={this.onDrag}
-          >
-            <div className="note">
-              <button type="submit" onClick={this.stopEditing}>Done</button>
-              <h3>{this.state.title}</h3>
-              <TextareaAutosize class="editing" onChange={this.onContentChange} value={this.state.text} />
-              {/* <input onChange={this.onContentChange} value={this.state.text} />
-         */}
-
-            </div>
-          </Draggable>
-
+        <div className="note">
+          <button type="submit" onClick={this.stopEditing}>Done</button>
+          <h3>{this.state.title}</h3>
+          <h3>Editing</h3>
+          <TextareaAutosize class="editing" onChange={this.onContentChange} value={this.state.text} />
         </div>
+
       );
     } else {
       return (
-        <Draggable
-          handle=".handle"
-          grid={[25, 25]}
-          defaultPosition={{ x, y }}
-          position={position}
-        // onStart={this.onStartDrag}
-          onDrag={this.onDrag}
-        >
-          <div className="note">
-            <span className="handle">Drag Here</span>
-            <button type="submit" onClick={this.deleteNote}>Delete</button>
-            <h3>{this.state.title}</h3>
-            <h3>{this.state.id}</h3>
-            {/* <div className="noteBody" dangerouslySetInnerHTML={{ __html: marked(this.state.text || '') }} /> */}
-            <TextareaAutosize onChange={this.onContentChange} value={this.state.text} />
+        <div className="note">
+          <span className="handle">Drag Here</span>
+          <button type="submit" onClick={this.deleteNote}>Delete</button>
+          <h3>{this.state.title}</h3>
+          <h3>{this.state.id}</h3>
+          <div role="presentation"
+            onClick={() => { this.setState({ isEditing: true }); }}
+            className="noteBody"
+            dangerouslySetInnerHTML={{ __html: marked(this.state.text || '') }}
+          />
 
-          </div>
-        </Draggable>
+          {/* <TextareaAutosize onChange={this.onContentChange} value={this.state.text} /> */}
+
+        </div>
       );
     }
   }
@@ -110,9 +89,18 @@ class Note extends Component {
     };
 
     return (
-      <div>
+
+      <Draggable
+        handle=".handle"
+        grid={[25, 25]}
+        position={position}
+        // onStart={this.onStartDrag}
+        onDrag={this.onDrag}
+      >
         {this.renderNote(x, y, position)}
-      </div>
+      </Draggable>
+
+
     );
   }
 }

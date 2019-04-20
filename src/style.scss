@@ -13,7 +13,8 @@ body, html {
 }
 
 .note {
-    display: flexbox;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center; 
     width: 30vw;
@@ -21,6 +22,7 @@ body, html {
     background-color: black;
     color: white;
     border: 5px groove red;
+    position: absolute;
 }
 
 .editing {
