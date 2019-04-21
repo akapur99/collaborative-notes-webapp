@@ -1,4 +1,4 @@
-import Firebase from 'firebase';
+import firebase from 'firebase';
 
 // Set the configuration for your app
 const config = {
@@ -7,11 +7,12 @@ const config = {
   databaseURL: 'https://react-notes-573ca.firebaseio.com',
   projectId: 'react-notes-573ca',
   storageBucket: 'react-notes-573ca.appspot.com',
+  messagingSenderId: '927055454052',
 };
-Firebase.initializeApp(config);
+firebase.initializeApp(config);
 
 // Get a reference to the database service
-const database = Firebase.database();
+const database = firebase.database();
 
 // fetchNotes = (callback) => {
 //   Firebase.database().ref('notes').on('value', (snapshot) => {
@@ -21,8 +22,27 @@ const database = Firebase.database();
 //   });
 // };
 
-// export function fetchNotes(callback) {
+export function fetchNotes(func) {
+  console.log('juobhsikjfgkhlabdhknf');
+  database.ref('notes').on('value', (snapshot) => {
+    const newNoteState = snapshot.val();
+    console.log(newNoteState);
+    func(newNoteState);
+  });
+}
 
-//   // do something here
-//   // callback() when done
+export function deleteNote(callback) {
+    firebase.database().ref('notes').child(id).remove();
+    callback(newNoteState);
+  });
+}
+
+// export function updateNotes(callback) {
+//   function writeUserData(userId, name, email, imageUrl) {
+//     firebase.database().ref(`users/${  userId}`).set({
+//       username: name,
+//       email,
+//       profile_picture: imageUrl,
+//     });
+//   }
 // }

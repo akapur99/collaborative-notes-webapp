@@ -43,9 +43,6 @@ class Note extends Component {
   }
 
   deleteNote = () => {
-    console.log('fuck');
-    console.log(this.state.id);
-    console.log('this shit');
     this.props.deleteNote(this.state.id);
   };
 
@@ -57,6 +54,7 @@ class Note extends Component {
           <button type="submit" onClick={this.stopEditing}>Done</button>
           <h3>{this.state.title}</h3>
           <h3>Editing</h3>
+          console.log({this.state.zindex})
           <TextareaAutosize class="editing" onChange={this.onContentChange} value={this.state.text} />
         </div>
 
@@ -67,10 +65,10 @@ class Note extends Component {
           <span className="handle">Drag Here</span>
           <button type="submit" onClick={this.deleteNote}>Delete</button>
           <h3>{this.state.title}</h3>
-          <h3>{this.state.id}</h3>
           <div role="presentation"
             onClick={() => { this.setState({ isEditing: true }); }}
             className="noteBody"
+            // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{ __html: marked(this.state.text || '') }}
           />
 
