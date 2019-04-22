@@ -36,5 +36,8 @@ body, html {
     height: 5%;
     background-color: antiquewhite;
     color: black;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row nowrap;
 
 }

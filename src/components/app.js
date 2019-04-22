@@ -10,7 +10,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: 0,
+    //   id: 0,
       // eslint-disable-next-line new-cap
       notes: Map(),
     };
@@ -18,40 +18,27 @@ class App extends Component {
 
   deleteNote = (i) => {
     // note the parens which are shorthand for return
-
     db.deleteNote(i);
-
-    // this.setState(prevState => ({
-    //   notes: prevState.notes.delete(i),
-    // }));
   }
 
   addNote = (title) => {
-    const { id } = this.state;
+    // const { id } = this.state;
     const note = {
       title,
       x: Math.floor(Math.random() * 500),
       y: Math.floor(Math.random() * 500),
       text: 'Click here to start working!',
-      zindex: 4,
+      zindex: 0,
     };
 
     db.addNote(note);
-
-    this.setState(prevState => ({
-      notes: prevState.notes.set(id, note),
-      id: id + 1,
-    }));
   };
 
-  //   updateNote = (id) => {
-  //     this.setState(prevState => ({
-  //       notes: prevState.notes.update(id, (n) => { return Object.assign({}, n, fields); }),
-  //     }));
-  //   }
+    updateNote = (id, note) => {
+      db.updateNotes(id, note);
+    }
 
     componentDidMount = () => {
-      console.log('ssss');
       db.fetchNotes((notes) => {
         this.setState({ notes: Map(notes) });
       });
@@ -63,7 +50,7 @@ class App extends Component {
           <EntryBar onAddNote={this.addNote} />
 
           {this.state.notes.entrySeq().map(([id, note]) => {
-            return <Note key={id} note={note} id={id} deleteNote={this.deleteNote} updateNote={this.updateNote} />;
+            return <Note key={id} note={note} id={id} onDrag={this.updateNote} deleteNote={this.deleteNote} updateNote={this.updateNote} />;
           })}
 
         </div>

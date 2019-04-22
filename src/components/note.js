@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Draggable from 'react-draggable';
 import TextareaAutosize from 'react-textarea-autosize';
 import marked from 'marked';
+// import firebase from 'firebase';
 
 
 class Note extends Component {
@@ -17,28 +18,46 @@ class Note extends Component {
       isEditing: false,
       zindex: this.props.note.zindex,
     };
-
-    // this.onContentChange = this.onContentChange.bind(this);
-    // this.deleteNote = this.onDelete.bind(this);
-    // this.onDrag = this.onDrag.bind(this);
   }
 
   onDrag = (e, ui) => {
+    const note = {
+      title: this.state.title,
+      text: this.state.text,
+      x: ui.x,
+      y: ui.y,
+      zindex: this.state.zindex,
+    };
+    this.props.onDrag(this.state.id, note);
+  };
+
+  onStopDrag = (e, ui) => {
     this.setState({
       x: ui.x,
       y: ui.y,
     });
-  };
+  }
 
   onContentChange = (event) => {
-    console.log(event.target.value);
-    // this.props.onSearchChange(event.target.value);
-    this.setState({ text: event.target.value });
+    this.setState({
+      text: event.target.value,
+      zindex: Number.MAX_SAFE_INTEGER,
+    });
+
+    const note = {
+      title: this.state.title,
+      text: this.state.text,
+      x: this.state.x,
+      y: this.state.y,
+      zindex: this.state.zindex,
+    };
+    this.props.updateNote(this.state.id, note);
   };
 
   stopEditing = () => {
     this.setState({
       isEditing: false,
+      zindex: this.props.note.zindex,
     });
   }
 
@@ -51,28 +70,28 @@ class Note extends Component {
     if (this.state.isEditing) {
       return (
         <div className="note">
-          <button type="submit" onClick={this.stopEditing}>Done</button>
-          <h3>{this.state.title}</h3>
-          <h3>Editing</h3>
-          console.log({this.state.zindex})
-          <TextareaAutosize class="editing" onChange={this.onContentChange} value={this.state.text} />
+          <div className="handle">
+            <button type="submit" onClick={this.deleteNote}>Delete</button>
+            <button type="submit" onClick={this.stopEditing}>Done</button>
+            <h3>Editing</h3>
+          </div>
+          <TextareaAutosize className="editing" onChange={this.onContentChange} value={this.state.text} />
         </div>
 
       );
     } else {
       return (
         <div className="note">
-          <span className="handle">Drag Here</span>
-          <button type="submit" onClick={this.deleteNote}>Delete</button>
-          <h3>{this.state.title}</h3>
+          <div className="handle">
+            <button type="submit" onClick={this.deleteNote}>Delete</button>
+            <h3>{this.state.title}</h3>
+          </div>
           <div role="presentation"
             onClick={() => { this.setState({ isEditing: true }); }}
             className="noteBody"
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{ __html: marked(this.state.text || '') }}
           />
-
-          {/* <TextareaAutosize onChange={this.onContentChange} value={this.state.text} /> */}
 
         </div>
       );
@@ -92,8 +111,9 @@ class Note extends Component {
         handle=".handle"
         grid={[25, 25]}
         position={position}
-        // onStart={this.onStartDrag}
+        onStop={this.onStopDrag}
         onDrag={this.onDrag}
+        z-index={this.state.zindex}
       >
         {this.renderNote(x, y, position)}
       </Draggable>
