@@ -50,7 +50,6 @@ class Note extends Component {
   onContentChange = (event) => {
     this.setState({
       text: event.target.value,
-      // zindex: Number.MAX_SAFE_INTEGER,
     });
 
     this.updateNote();
@@ -68,6 +67,7 @@ class Note extends Component {
       isEditing: false,
       zindex: this.props.note.zindex,
     });
+    this.updateNote();
   }
 
   addNote = () => {
@@ -142,7 +142,7 @@ class Note extends Component {
 
 
   render() {
-    const { x, y } = this.state;
+    const { x, y } = this.props.note;
     const position = {
       x, y, width: 100, height: 100,
     };
