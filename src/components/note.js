@@ -52,14 +52,14 @@ class Note extends Component {
       text: event.target.value,
     });
 
-    this.updateNote();
+    // this.updateNote();
   };
 
   onTitleChange = (event) => {
     this.setState({
       title: event.target.value,
     });
-    this.updateNote();
+    // this.updateNote();
   }
 
   stopEditing = () => {
@@ -119,20 +119,29 @@ class Note extends Component {
 
       );
     } else {
+      const { title, text } = this.props.note;
       return (
         <div className="note" style={{ zIndex: this.state.currIndex }}>
           <div className="handle">
             <FontAwesomeIcon onClick={this.deleteNote} icon={faTrashAlt} size="2x" />
             <FontAwesomeIcon onClick={this.changeColor} icon={faPalette} size="2x" />
             <FontAwesomeIcon onClick={this.addNote} icon={faPlusCircle} size="2x" />
-            <p onClick={() => { this.setState({ isEditing: true }); }}>{this.state.title}</p>
+            <p onClick={() => {
+              this.setState({
+                isEditing: true,
+                title,
+                text,
+              });
+            }}
+            >{title}
+            </p>
             <span />
           </div>
           <div role="presentation"
             onClick={() => { this.setState({ isEditing: true }); }}
             className="noteBody"
             // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: marked(this.state.text || '') }}
+            dangerouslySetInnerHTML={{ __html: marked(text || '') }}
           />
 
         </div>
