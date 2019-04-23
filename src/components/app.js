@@ -34,28 +34,38 @@ class App extends Component {
     db.addNote(note);
   };
 
-    updateNote = (id, note) => {
-      db.updateNotes(id, note);
-    }
+  addSameNote = (note) => {
+    db.addNote(note);
+  }
 
-    componentDidMount = () => {
-      db.fetchNotes((notes) => {
-        this.setState({ notes: Map(notes) });
-      });
-    }
+  updateNote = (id, note) => {
+    db.updateNotes(id, note);
+  }
 
-    render() {
-      return (
-        <div>
-          <EntryBar onAddNote={this.addNote} />
+  componentDidMount = () => {
+    db.fetchNotes((notes) => {
+      this.setState({ notes: Map(notes) });
+    });
+  }
 
-          {this.state.notes.entrySeq().map(([id, note]) => {
-            return <Note key={id} note={note} id={id} onDrag={this.updateNote} deleteNote={this.deleteNote} updateNote={this.updateNote} />;
-          })}
+  deleteAll = () => {
+    this.state.notes.keySeq().forEach((id) => {
+      db.deleteNote(id);
+    });
+  }
 
-        </div>
-      );
-    }
+  render() {
+    return (
+      <div>
+        <EntryBar onAddNote={this.addNote} deleteAll={this.deleteAll} />
+
+        {this.state.notes.entrySeq().map(([id, note]) => {
+          return <Note key={id} note={note} id={id} addNote={this.addSameNote} onDrag={this.updateNote} deleteNote={this.deleteNote} updateNote={this.updateNote} />;
+        })}
+
+      </div>
+    );
+  }
 }
 
 export default App;

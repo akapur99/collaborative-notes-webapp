@@ -10,7 +10,7 @@
     "test": "eslint src/**.js",
     "build": "yarn clean & SET WEBPACK_ENV=production& webpack --colors",
     "clean": "rimraf dist",
-    "deploy": "yarn build & surge -p dist -d abhi-cs52-starter.surge.sh & yarn clean"
+    "deploy": "yarn build & surge -p dist -d abhi-notes.surge.sh & yarn clean"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
@@ -41,6 +41,9 @@
     "webpack-dev-server": "^3.3.1"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.17",
+    "@fortawesome/free-solid-svg-icons": "^5.8.1",
+    "@fortawesome/react-fontawesome": "^0.1.4",
     "axios": "^0.18.0",
     "firebase": "^5.10.0",
     "immutable": "^4.0.0-rc.12",

@@ -13,14 +13,6 @@ Firebase.initializeApp(config);
 // Get a reference to the database service
 const database = Firebase.database();
 
-// fetchNotes = (callback) => {
-//   Firebase.database().ref('notes').on('value', (snapshot) => {
-//     const newNoteState = snapshot.val();
-//     // do something with new note state
-//     callback(snapshot);
-//   });
-// };
-
 export function fetchNotes(func) {
   database.ref('notes').on('value', (snapshot) => {
     const newNoteState = snapshot.val();

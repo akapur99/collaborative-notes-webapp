@@ -5,30 +5,32 @@ class EntryBar extends Component {
     super(props);
 
     this.state = {
-      title: '',
+      title: 'Enter Title Here!',
     };
-    // this.onInputChange = this.onInputChange.bind(this);
-    // this.onClickAdd = this.onClickAdd.bind(this);
   }
 
   onInputChange = (event) => {
     console.log(event.target.value);
-    // this.props.onSearchChange(event.target.value);
     this.setState({ title: event.target.value });
   }
 
   onAddNote = () => {
     this.props.onAddNote(this.state.title);
     this.setState({
-      title: '',
+      title: 'Enter Title Here!',
     });
+  }
+
+  deleteAll = () => {
+    this.props.deleteAll();
   }
 
   render() {
     return (
-      <div>
+      <div className="addBar">
         <input onChange={this.onInputChange} value={this.state.title} />
         <button type="submit" onClick={this.onAddNote}>New Note</button>
+        <button type="submit" onClick={this.deleteAll}>Delete All</button>
 
       </div>
     );
