@@ -29,6 +29,6 @@ any extra credit attempted
 ### Screenshots
 
 ![](./src/img/r1.PNG)
-![]('./src/img/r2.PNG')
-![]('./src/img/r3.PNG')
-![]('./src/img/r4.PNG')
+![](./src/img/r2.PNG)
+![](./src/img/r3.PNG)
+![](./src/img/r4.PNG)
