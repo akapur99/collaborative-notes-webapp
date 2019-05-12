@@ -2,13 +2,21 @@
 import React, { Component } from 'react';
 import '../style.scss';
 import { Map } from 'immutable';
+import io from 'socket.io-client';
 import Note from './note';
 import EntryBar from './entry_bar';
-import * as db from '../services/datastore';
+// import * as db from '../services/datastore';
+
+const socketserver = 'http://localhost:9090';
 
 class App extends Component {
   constructor(props) {
     super(props);
+    this.socket = io(socketserver);
+    this.socket.on('connect', () => { console.log('socket.io connected'); });
+    this.socket.on('disconnect', () => { console.log('socket.io disconnected'); });
+    this.socket.on('reconnect', () => { console.log('socket.io reconnected'); });
+    this.socket.on('error', (error) => { console.log(error); });
     this.state = {
     //   id: 0,
       // eslint-disable-next-line new-cap
@@ -18,7 +26,7 @@ class App extends Component {
 
   deleteNote = (i) => {
     // note the parens which are shorthand for return
-    db.deleteNote(i);
+    this.socket.emit('deleteNote', i);
   }
 
   addNote = (title) => {
@@ -31,33 +39,27 @@ class App extends Component {
       zindex: 0,
     };
 
-    db.addNote(note);
+    this.socket.emit('createNote', note);
   };
 
   addSameNote = (note) => {
-    db.addNote(note);
+    this.socket.emit('createNote', note);
   }
 
   updateNote = (id, note) => {
-    db.updateNotes(id, note);
+    this.socket.emit('updateNote', id, note);
   }
 
   componentDidMount = () => {
-    db.fetchNotes((notes) => {
+    this.socket.on('notes', (notes) => {
       this.setState({ notes: Map(notes) });
-    });
-  }
-
-  deleteAll = () => {
-    this.state.notes.keySeq().forEach((id) => {
-      db.deleteNote(id);
     });
   }
 
   render() {
     return (
       <div>
-        <EntryBar onAddNote={this.addNote} deleteAll={this.deleteAll} />
+        <EntryBar onAddNote={this.addNote} />
 
         {this.state.notes.entrySeq().map(([id, note]) => {
           return <Note key={id} note={note} id={id} addNote={this.addSameNote} onDrag={this.updateNote} deleteNote={this.deleteNote} updateNote={this.updateNote} />;

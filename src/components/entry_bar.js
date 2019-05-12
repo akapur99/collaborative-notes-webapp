@@ -21,16 +21,11 @@ class EntryBar extends Component {
     });
   }
 
-  deleteAll = () => {
-    this.props.deleteAll();
-  }
-
   render() {
     return (
       <div className="addBar">
         <input onChange={this.onInputChange} value={this.state.title} />
         <button type="submit" onClick={this.onAddNote}>New Note</button>
-        <button type="submit" onClick={this.deleteAll}>Delete All</button>
 
       </div>
     );
